@@ -1,0 +1,36 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Blog Posts{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Latest Posts</h1>
+    
+    {% for post in page_obj %}
+        <article class="card post-card">
+            {% if post.featured_image %}
+                <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}">
+            {% endif %}
+            <div class="card-body">
+                <h2 class="card-title">
+                    <a href="{{ post.get_absolute_url }}" class="text-decoration-none text-dark">
+                        {{ post.title }}
+                    </a>
+                </h2>
+                <p class="text-muted">
+                    Posted by {{ post.author }} on {{ post.publish_date|date:"F j, Y" }}
+                    {% if post.category %}
+                        in <a href="{% url 'blog:category_posts' post.category.slug %}" class="text-decoration-none">
+                            {{ post.category.name }}
+                        </a>
+                    {% endif %}
+                </p>
+                <p class="card-text">{{ post.excerpt|default:post.content|truncatewords:30 }}</p>
+                <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read More</a>
+            </div>
+        </article>
+    {% empty %}
+        <p>No posts available.</p>
+    {% endfor %}
+    
+    {% include 'blog/includes/pagination.html' %}
+{% endblock %}

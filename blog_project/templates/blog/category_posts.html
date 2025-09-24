@@ -1,0 +1,35 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Posts in {{ category.name }}{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Posts in "{{ category.name }}"</h1>
+    
+    {% if page_obj %}
+        {% for post in page_obj %}
+            <article class="card post-card mb-4">
+                {% if post.featured_image %}
+                    <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h2 class="card-title">
+                        <a href="{{ post.get_absolute_url }}" class="text-decoration-none text-dark">
+                            {{ post.title }}
+                        </a>
+                    </h2>
+                    <p class="text-muted">
+                        Posted by {{ post.author }} on {{ post.publish_date|date:"F j, Y" }}
+                    </p>
+                    <p class="card-text">{{ post.excerpt|default:post.content|truncatewords:30 }}</p>
+                    <a href="{{ post.get_absolute_url }}" class="btn btn-primary">Read More</a>
+                </div>
+            </article>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info">
+            <p>No posts found in this category yet.</p>
+        </div>
+    {% endif %}
+    
+    {% include 'blog/includes/pagination.html' %}
+{% endblock %}

@@ -1,0 +1,50 @@
+<div class="sidebar">
+                            <div class="mb-4">
+                                <h4><i class="bi bi-info-circle me-2"></i>About Blog</h4>
+                                <p class="text-muted">Welcome to our Django blog! We share insights on web development, programming, and technology.</p>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h4><i class="bi bi-bookmark me-2"></i>Categories</h4>
+                                <ul class="list-unstyled">
+                                    {% for category in categories %}
+                                    <li>
+                                        <a href="{% url 'blog:category_posts' category.slug %}" class="text-decoration-none d-flex justify-content-between align-items-center">
+                                            <span>{{ category.name }}</span>
+                                            <span class="badge rounded-pill" style="background-color: var(--whatsapp-light); color: white;">{{ category.post_set.count }}</span>
+                                        </a>
+                                    </li>
+                                    {% empty %}
+                                    <li class="text-muted">No categories yet.</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <h4><i class="bi bi-clock me-2"></i>Recent Posts</h4>
+                                <ul class="list-unstyled">
+                                    {% for post in recent_posts %}
+                                    <li>
+                                        <a href="{{ post.get_absolute_url }}" class="text-decoration-none">
+                                            {{ post.title|truncatewords:6 }}
+                                        </a>
+                                        <br>
+                                        <small class="text-muted">{{ post.publish_date|date:"M j, Y" }}</small>
+                                    </li>
+                                    {% empty %}
+                                    <li class="text-muted">No recent posts.</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            
+                            <div>
+                                <h4><i class="bi bi-envelope me-2"></i>Subscribe</h4>
+                                <form method="post" action="#">
+                                    {% csrf_token %}
+                                    <div class="mb-2">
+                                        <input type="email" class="form-control form-control-sm" placeholder="Your email" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-sm w-100">Subscribe</button>
+                                </form>
+                            </div>
+                        </div>

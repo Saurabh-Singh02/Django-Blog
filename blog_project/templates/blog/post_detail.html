@@ -1,0 +1,59 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+    <article class="mb-5">
+        <h1 class="mb-3">{{ post.title }}</h1>
+        
+        <p class="text-muted">
+            Posted by {{ post.author }} on {{ post.publish_date|date:"F j, Y" }}
+            {% if post.category %}
+                in <a href="{% url 'blog:category_posts' post.category.slug %}" class="text-decoration-none">
+                    {{ post.category.name }}
+                </a>
+            {% endif %}
+        </p>
+        
+        {% if post.featured_image %}
+            <img src="{{ post.featured_image.url }}" class="img-fluid rounded mb-4" alt="{{ post.title }}">
+        {% endif %}
+        
+        <div class="post-content">
+            {{ post.content|linebreaks }}
+        </div>
+    </article>
+    
+    <section class="comments mb-5">
+        <h3>Comments ({{ comments.count }})</h3>
+        
+        {% for comment in comments %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ comment.name }}</h5>
+                    <p class="text-muted small">{{ comment.created_date|date:"F j, Y, P" }}</p>
+                    <p class="card-text">{{ comment.content }}</p>
+                </div>
+            </div>
+        {% empty %}
+            <p>No comments yet. Be the first to comment!</p>
+        {% endfor %}
+    </section>
+    
+    <section class="comment-form">
+        <h3>Add a Comment</h3>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+                {{ comment_form.name }}
+            </div>
+            <div class="mb-3">
+                {{ comment_form.email }}
+            </div>
+            <div class="mb-3">
+                {{ comment_form.content }}
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Comment</button>
+        </form>
+    </section>
+{% endblock %}
