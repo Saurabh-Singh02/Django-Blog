@@ -1,37 +1,61 @@
-        <footer class="blog-footer mt-5 py-5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4 mb-4">
-                        <h5><i class="bi bi-chat-dots me-2"></i>Django Blog</h5>
-                        <p class="text-muted">A simple blog built with Django and Bootstrap. Sharing thoughts and ideas with the world.</p>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <h5><i class="bi bi-link-45deg me-2"></i>Quick Links</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="{% url 'blog:post_list' %}" class="text-decoration-none">Home</a></li>
-                            <li><a href="#" class="text-decoration-none">About</a></li>
-                            <li><a href="#" class="text-decoration-none">Contact</a></li>
-                            <li><a href="/admin/" class="text-decoration-none">Admin</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <h5><i class="bi bi-bookmark me-2"></i>Categories</h5>
-                        <ul class="list-unstyled">
-                            {% for category in categories|slice:":5" %}
-                            <li>
-                                <a href="{% url 'blog:category_posts' category.slug %}" class="text-decoration-none">
-                                    {{ category.name }}
-                                </a>
-                            </li>
-                            {% empty %}
-                            <li class="text-muted">No categories yet</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
+<footer class="blog-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4 mb-lg-0">
+                <h5>Saurabh Singh</h5>
+                <p class="text-muted">A modern Django blog sharing insights on web development, programming, and technology.</p>
+                <div class="d-flex gap-3">
+                    <a href="#" class="text-decoration-none">
+                        <i class="bi bi-twitter"></i>
+                    </a>
+                    <a href="#" class="text-decoration-none">
+                        <i class="bi bi-github"></i>
+                    </a>
+                    <a href="#" class="text-decoration-none">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                    <a href="#" class="text-decoration-none">
+                        <i class="bi bi-envelope"></i>
+                    </a>
                 </div>
-                <hr>
-                <p class="text-center text-muted mb-0">
-                    © {% now "Y" %} SS Blog. Built with Django.
-                </p>
             </div>
-        </footer>
+            <div class="col-lg-2 col-6 mb-4 mb-lg-0">
+                <h5>Navigation</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'blog:post_list' %}">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="/admin/">Admin</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-2 col-6 mb-4 mb-lg-0">
+                <h5>Categories</h5>
+                <ul class="list-unstyled">
+                    {% for category in categories|slice:":5" %}
+                    <li><a href="{% url 'blog:category_posts' category.slug %}">{{ category.name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-lg-4">
+                <h5>Subscribe</h5>
+                <p class="text-muted">Stay updated with our latest posts.</p>
+                <form class="d-flex">
+                    <input type="email" class="form-control me-2" placeholder="Your email">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-send"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+        <hr class="my-4">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class="text-muted mb-0">&copy; 2023 Saurabh Singh. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="#" class="text-decoration-none me-3">Privacy Policy</a>
+                <a href="#" class="text-decoration-none">Terms of Service</a>
+            </div>
+        </div>
+    </div>
+</footer>
