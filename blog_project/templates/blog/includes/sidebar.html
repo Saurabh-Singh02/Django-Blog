@@ -1,57 +1,62 @@
-{% if page_obj.has_other_pages %}
-<nav aria-label="Page navigation" class="mt-5">
-    <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-            <li class="page-item">
-                <a class="page-link" href="?page=1" aria-label="First">
-                    <i class="bi bi-chevron-double-left"></i>
+<div class="sidebar">
+    <div class="mb-4">
+        <h4><i class="bi bi-search me-2"></i> Search</h4>
+        <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search posts..." aria-label="Search">
+            <button class="btn btn-primary" type="submit">
+                <i class="bi bi-search"></i>
+            </button>
+        </form>
+    </div>
+
+    <div class="mb-4">
+        <h4><i class="bi bi-folder me-2"></i> Categories</h4>
+        <ul class="list-unstyled">
+            {% for category in categories %}
+            <li>
+                <a href="{% url 'blog:category_posts' category.slug %}">
+                    <i class="bi bi-folder2"></i> {{ category.name }}
+                    <span class="badge bg-primary rounded-pill float-end">{{ category.post_count }}</span>
                 </a>
             </li>
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                    <i class="bi bi-chevron-left"></i>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="mb-4">
+        <h4><i class="bi bi-clock me-2"></i> Recent Posts</h4>
+        <ul class="list-unstyled">
+            {% for post in recent_posts %}
+            <li>
+                <a href="{{ post.get_absolute_url }}">
+                    <i class="bi bi-file-text"></i> {{ post.title }}
                 </a>
             </li>
-        {% else %}
-            <li class="page-item disabled">
-                <span class="page-link"><i class="bi bi-chevron-double-left"></i></span>
-            </li>
-            <li class="page-item disabled">
-                <span class="page-link"><i class="bi bi-chevron-left"></i></span>
-            </li>
-        {% endif %}
-        
-        {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-                <li class="page-item active" aria-current="page">
-                    <span class="page-link">{{ num }}</span>
-                </li>
-            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                </li>
-            {% endif %}
-        {% endfor %}
-        
-        {% if page_obj.has_next %}
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-                    <i class="bi bi-chevron-right"></i>
-                </a>
-            </li>
-            <li class="page-item">
-                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
-                    <i class="bi bi-chevron-double-right"></i>
-                </a>
-            </li>
-        {% else %}
-            <li class="page-item disabled">
-                <span class="page-link"><i class="bi bi-chevron-right"></i></span>
-            </li>
-            <li class="page-item disabled">
-                <span class="page-link"><i class="bi bi-chevron-double-right"></i></span>
-            </li>
-        {% endif %}
-    </ul>
-</nav>
-{% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% comment %} <div class="mb-4">
+        <h4><i class="bi bi-tags me-2"></i> Popular Tags</h4>
+        <div class="d-flex flex-wrap gap-2">
+            {% for tag in popular_tags %}
+            <a href="#" class="category-badge">
+                <i class="bi bi-tag"></i> {{ tag.name }}
+            </a>
+            {% endfor %}
+        </div> {% endcomment %}
+    </div>
+
+    {% comment %} <div>
+        <h4><i class="bi bi-rss me-2"></i> Subscribe</h4>
+        <p class="text-muted">Get the latest posts delivered right to your inbox.</p>
+        <form>
+            <div class="mb-2">
+                <input type="email" class="form-control" placeholder="Your email">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="bi bi-envelope"></i> Subscribe
+            </button>
+        </form>
+    </div> {% endcomment %}
+</div>
