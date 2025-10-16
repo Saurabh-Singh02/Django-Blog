@@ -1,50 +1,62 @@
 <div class="sidebar">
-                            <div class="mb-4">
-                                <h4><i class="bi bi-info-circle me-2"></i>About Blog</h4>
-                                <p class="text-muted">Welcome to our Django blog! We share insights on web development, programming, and technology.</p>
-                            </div>
-                            
-                            <div class="mb-4">
-                                <h4><i class="bi bi-bookmark me-2"></i>Categories</h4>
-                                <ul class="list-unstyled">
-                                    {% for category in categories %}
-                                    <li>
-                                        <a href="{% url 'blog:category_posts' category.slug %}" class="text-decoration-none d-flex justify-content-between align-items-center">
-                                            <span>{{ category.name }}</span>
-                                            <span class="badge rounded-pill" style="background-color: var(--whatsapp-light); color: white;">{{ category.post_set.count }}</span>
-                                        </a>
-                                    </li>
-                                    {% empty %}
-                                    <li class="text-muted">No categories yet.</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            
-                            <div class="mb-4">
-                                <h4><i class="bi bi-clock me-2"></i>Recent Posts</h4>
-                                <ul class="list-unstyled">
-                                    {% for post in recent_posts %}
-                                    <li>
-                                        <a href="{{ post.get_absolute_url }}" class="text-decoration-none">
-                                            {{ post.title|truncatewords:6 }}
-                                        </a>
-                                        <br>
-                                        <small class="text-muted">{{ post.publish_date|date:"M j, Y" }}</small>
-                                    </li>
-                                    {% empty %}
-                                    <li class="text-muted">No recent posts.</li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                            
-                            <div>
-                                <h4><i class="bi bi-envelope me-2"></i>Subscribe</h4>
-                                <form method="post" action="#">
-                                    {% csrf_token %}
-                                    <div class="mb-2">
-                                        <input type="email" class="form-control form-control-sm" placeholder="Your email" required>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary btn-sm w-100">Subscribe</button>
-                                </form>
-                            </div>
-                        </div>
+    <div class="mb-4">
+        <h4><i class="bi bi-search me-2"></i> Search</h4>
+        <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search posts..." aria-label="Search">
+            <button class="btn btn-primary" type="submit">
+                <i class="bi bi-search"></i>
+            </button>
+        </form>
+    </div>
+
+    <div class="mb-4">
+        <h4><i class="bi bi-folder me-2"></i> Categories</h4>
+        <ul class="list-unstyled">
+            {% for category in categories %}
+            <li>
+                <a href="{% url 'blog:category_posts' category.slug %}">
+                    <i class="bi bi-folder2"></i> {{ category.name }}
+                    <span class="badge bg-primary rounded-pill float-end">{{ category.post_count }}</span>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="mb-4">
+        <h4><i class="bi bi-clock me-2"></i> Recent Posts</h4>
+        <ul class="list-unstyled">
+            {% for post in recent_posts %}
+            <li>
+                <a href="{{ post.get_absolute_url }}">
+                    <i class="bi bi-file-text"></i> {{ post.title }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% comment %} <div class="mb-4">
+        <h4><i class="bi bi-tags me-2"></i> Popular Tags</h4>
+        <div class="d-flex flex-wrap gap-2">
+            {% for tag in popular_tags %}
+            <a href="#" class="category-badge">
+                <i class="bi bi-tag"></i> {{ tag.name }}
+            </a>
+            {% endfor %}
+        </div> {% endcomment %}
+    </div>
+
+    {% comment %} <div>
+        <h4><i class="bi bi-rss me-2"></i> Subscribe</h4>
+        <p class="text-muted">Get the latest posts delivered right to your inbox.</p>
+        <form>
+            <div class="mb-2">
+                <input type="email" class="form-control" placeholder="Your email">
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="bi bi-envelope"></i> Subscribe
+            </button>
+        </form>
+    </div> {% endcomment %}
+</div>
